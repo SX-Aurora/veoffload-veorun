@@ -27,13 +27,14 @@
 #define __VE_VEORUN_H__
 
 #define VEORUN_SYMNAME_LEN_MAX (255)
+#define VEORUN_VERSION (0x1004F4556UL) /* 'V' 'E' 'O' \0 1 */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 struct veo__helper_functions {
-  uint64_t name_buffer;
+  uint64_t version;
   uint64_t load_library;
   uint64_t alloc_buff;
   uint64_t free_buff;
@@ -41,7 +42,6 @@ struct veo__helper_functions {
   uint64_t create_thread;
   uint64_t call_func;
   uint64_t exit;
-  uint64_t get_sp;
 };
 
 #ifdef __cplusplus
