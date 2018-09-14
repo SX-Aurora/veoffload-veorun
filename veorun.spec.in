@@ -32,6 +32,7 @@ Requires: %{name} = %{version}-%{release}
 %setup -q
 
 %build
+export CFLAGS="-g"
 %configure --host=ve-unknown-linux-gnu --libdir=%{_libdir}
 %make_build
 
