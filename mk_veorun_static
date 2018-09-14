@@ -19,11 +19,13 @@ fi
 
 NM=${NM:-nm}
 CC=${CC:-/opt/nec/ve/bin/ncc}
+CXX=${CXX:-/opt/nec/ve/bin/nc++}
 CFLAGS=${CFLAGS:-}
 
 EXT_FILE=`mktemp /tmp/veo.extXXXXXXXX`
 DEF_FILE=`mktemp /tmp/veo.defXXXXXXXX`
 SRC_FILE=`mktemp /tmp/veorunXXXXXXX.c`
+OBJ_FILE=`mktemp /tmp/veorunXXXXXXX.o`
 
 head() {
     local SIZE=$1
@@ -75,7 +77,10 @@ head $SIZE > $SRC_FILE
 cat $DEF_FILE >> $SRC_FILE
 tail >> $SRC_FILE
 
-$CC $CFLAGS -o $VEORUN $SRC_FILE $LIBS /opt/nec/ve/lib/libveorun.a \
+
+$CC $CFLAGS -c $SRC_FILE -o $OBJ_FILE
+
+$CXX $CFLAGS -o $VEORUN $OBJ_FILE $LIBS /opt/nec/ve/lib/libveorun.a \
     && echo "created specific $VEORUN"
 
-rm -f $EXT_FILE $DEF_FILE $SRC_FILE
+rm -f $EXT_FILE $DEF_FILE $SRC_FILE $OBJ_FILE
