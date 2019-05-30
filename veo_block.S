@@ -8,6 +8,9 @@ _veo_block:
 	st %got, 0x18(,%sp)
 	st %plt, 0x20(,%sp)
 	or %fp, 0, %sp
+        lea     %s13, auto_size&0xffffffff
+        and     %s13, %s13, (32)0
+        lea.sl  %sp, auto_size>>32(%fp,%s13)
 	# block
 _veo_do_block:
 	ld %s63, 0x18(,%s14)
@@ -28,3 +31,4 @@ _veo_call_kernel_function:
         # restore %sp in case it was changed for args passing
         or %sp, 0, %fp
 	br.l _veo_do_block
+        .set    auto_size,        0xffffffffffffff00      # 256 Bytes
