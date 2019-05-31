@@ -8,10 +8,12 @@ class VeoObjects(object):
 
     def _load(self, objs):
         # addr type name
-        nm = subprocess.Popen([self.NM] + objs, stdout = subprocess.PIPE)
-        s = [s[2] for s in [l.rstrip().split() for l in nm.stdout] \
-                  if len(s) == 3 and \
-                     s[1] in ['T', 'D', 'u', 'G', 'S', 'B', 'A', 'R', 'C']]
+        nm = subprocess.Popen([self.NM, "-f", "sysv"] + objs, stdout = subprocess.PIPE)
+        s = [s[0].rstrip() for s in [l.rstrip().split("|") for l in nm.stdout] \
+             if len(s) > 4 and \
+                 s[3].lstrip() != "TLS" and \
+                 s[1].rstrip() != "" and \
+                 s[2].strip() in ['T', 'D', 'u', 'G', 'S', 'B', 'A', 'R', 'C']]
         nm.wait()
         return s
 
